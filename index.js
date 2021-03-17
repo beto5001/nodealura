@@ -1,5 +1,16 @@
-const customExpress = require('./config/customExpress')
+const customExpress = require('./config/customExpress');
+const connection = require('./infra/conection');
 
-const app = customExpress();
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connection: ' + err.stack);
+        return;
+    }
+    
+    console.log('DB connection succeeded: ' + connection.threadId);
 
-app.listen(3000, () => console.log('listen http://localhost:' + 3000));
+    const app = customExpress();
+    app.listen(3000, () => console.log('listen http://localhost:' + 3000));
+});
+
+
